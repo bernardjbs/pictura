@@ -5,8 +5,14 @@ const { authMiddleware } = require('./utils/auth');
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
+require("dotenv").config({
+  path: path.resolve(__dirname, '../.env')
+});
+
+// console.log(path.resolve(__dirname, '../.env'))
 
 const PORT = process.env.PORT || 3001;
+console.log(process.env.PORT)
 const app = express();
 const server = new ApolloServer({
   typeDefs,
