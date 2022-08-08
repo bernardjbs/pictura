@@ -18,9 +18,9 @@ const pictureSchema = new Schema({
     type: String, 
     required: true
   },
-  userId: {
-    type: String,
-    required: true,
+  customer: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
   },
 });
 

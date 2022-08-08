@@ -19,11 +19,21 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
+  userType: {
+    type: String, 
+    required: true,
+  },
   password: {
     type: String,
     required: true,
     minlength: 5
   },
+  pictures: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Picture',
+    },
+  ],
 });
 
 // set up pre-save middleware to create password
