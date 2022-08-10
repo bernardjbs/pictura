@@ -31,7 +31,7 @@ const userSchema = new Schema({
   pictures: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Picture',
+      ref: 'picture',
     },
   ],
 });
@@ -51,6 +51,6 @@ userSchema.methods.isCorrectPassword = async function(password) {
   return await bcrypt.compare(password, this.password);
 };
 
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;

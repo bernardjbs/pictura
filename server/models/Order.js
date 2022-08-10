@@ -1,32 +1,17 @@
 const { Schema, model } = require('mongoose');
 
-const printSchema = new Schema(
-  {
-    id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-    },
-    filename: {
-      type: String,
-      required: true
-    },
-    quantity: {
-      type: Number,
-      required: true,
-    },
-    size: {
-      type: String,
-      required: true,
-    },
-  },
-);
-
 const orderSchema = new Schema(
   {
-    customerId: {
-      type: String,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
     },
-    imageInfo: [printSchema],
+    pictureOrders: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'pictureOrder',
+      }
+    ],
     //status: Open, Complete, Delivered, In Progress
     status: {
       type: String,
@@ -43,4 +28,4 @@ const orderSchema = new Schema(
 // Initialise Order model
 const Order = model('order', orderSchema);
 
-module.exports = Order
+module.exports = Order;

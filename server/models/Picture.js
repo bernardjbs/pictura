@@ -18,10 +18,16 @@ const pictureSchema = new Schema({
     type: String, 
     required: true
   },
-  customer: {
+  user: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
   },
+  orders: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'order',
+    },
+  ]
 });
 
 const Picture = model('picture', pictureSchema);
