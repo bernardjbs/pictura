@@ -1,14 +1,16 @@
-import React from 'react';
+import App from './App';
+
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
+
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -26,12 +28,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-function App() {
-  return (
-    <ApolloProvider client={client}>
-      <h1>Hello there again</h1>
-    </ApolloProvider>
-  )
-};
-
-export default App;
+export default (
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+)
