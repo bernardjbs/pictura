@@ -1,4 +1,6 @@
 import React from 'react';
+import Nav from '../src/components/Nav_01'
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -29,6 +31,7 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      <Nav />
       <h1>Hello there again</h1>
     </ApolloProvider>
   )
