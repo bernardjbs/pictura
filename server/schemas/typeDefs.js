@@ -5,7 +5,7 @@ type User {
   _id: ID
   firstName: String
   lastName: String
-  email: String, 
+  email: String
   pictures: [Picture]
 }
 
