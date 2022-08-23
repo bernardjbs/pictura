@@ -1,8 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Nav from '../src/components/Nav_01'
+import Nav from '../src/components/Nav'
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Pictures from './pages/Pictures';
 
 import {
   ApolloClient,
@@ -37,9 +38,10 @@ function App() {
       <Nav />
       <section className='app-container'>
         <Routes>
-          <Route path='/login' element={<Login />}></Route>
           <Route path='/' element={<Home />}></Route>
-          
+          <Route path='/login' element={<Login />}></Route>
+          <Route path='/pictures' element={<Pictures />}></Route>
+
         </Routes>
       </section>
     </ApolloProvider>
