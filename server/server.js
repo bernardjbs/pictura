@@ -12,16 +12,18 @@ require("dotenv").config({
   path: path.resolve(__dirname, '../.env')
 });
 
+let buildpath;
+
 const PORT = process.env.PORT || 3001;
-console.log(process.env.PORT)
 const app = express();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
 });
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json({limit: '50mb'}));
 
 // Use cors middleware to allow React server with port 3000 for development and 5000 for production(build) to communicate with the backend server (port 5000)
