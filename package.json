@@ -12,6 +12,9 @@
     "install-client": "cd client && npm i ",
     "heroku-postbuild": "npm run install-client && npm run build"
   },
+  "engines": {
+    "node": ">=16.16.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bernardjbs/pictura.git"
