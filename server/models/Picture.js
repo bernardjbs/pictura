@@ -14,10 +14,6 @@ const pictureSchema = new Schema({
     type: String,
     required: true
   }, 
-  filepath: {
-    type: String, 
-    required: true
-  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user',

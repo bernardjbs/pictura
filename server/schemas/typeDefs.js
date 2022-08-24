@@ -28,7 +28,6 @@ type Picture {
   filename: String
   contentType: String
   imageBase64: String
-  filepath: String
 }
 
 type PictureOrder {
@@ -53,7 +52,7 @@ type Mutation {
   login(email: String!, password: String!): Auth
   addPictureOrder(size: String!, quantity: Int!, picture: [ID]!): PictureOrder
   addOrder(PictureOrder: [ID]!, user: ID!, status: String, note: String): Order
-  addPicture(filename: String!, contentType: String!, imageBase64: String!, filepath: String!, user: ID!): Picture
+  addPicture(filename: String!, contentType: String!, imageBase64: String!, user: ID!): Picture
 }
 `
 
