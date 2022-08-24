@@ -11,20 +11,13 @@ export const LOGIN = gql`
   }
 `;
 
-export const ADD_USER = gql`
-  mutation addUser(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    addUser(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      token
+export const ADD_PICTURE = gql`
+  mutation addPicture($filename: String!, $contentType: String!, $imageBase64: String!, $userId: ID!) {
+    addPicture(filename: $filename, contentType: $contentType, imageBase64: $imageBase64, user: $userId) {
+      _id
+      filename
+      contentType
+      imageBase64
       user {
         _id
       }
