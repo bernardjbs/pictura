@@ -30,7 +30,7 @@ app.use(cors({ origin: ["http://localhost:3000", "http://localhost:3001"] }));
 // Serve up static assets
 // app.use('/images', express.static(path.join(__dirname, '../client/images')));
 
-if (process.env.MODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
   
   app.get('/', (req, res) => {
