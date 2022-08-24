@@ -12,8 +12,6 @@ require("dotenv").config({
   path: path.resolve(__dirname, '../.env')
 });
 
-let buildpath;
-
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -39,7 +37,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
   });
 
-  buildpath = path.resolve('../client', 'build', 'index.html');
 }
 
 // Create a new instance of an Apollo server with the GraphQL schema
