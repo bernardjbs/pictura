@@ -12,7 +12,6 @@ if (Auth.loggedIn()) {
   loggedInUser = Auth.getProfile();
 }
 
-
 const convertBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
