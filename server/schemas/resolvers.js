@@ -70,12 +70,9 @@ const resolvers = {
     },
 
     // PICTURES MUTATION//
-    addPicture: async (parent, args) => {
-      const picture = await Picture.create(args);
-      return picture;
-    },
 
-    uploadPhoto: async (_, { photo }) => {
+    addPicture: async (_, args, context) => {
+      console.log
       // try-catch block for handling actual image upload
       cloudinary.config({
         cloud_name: process.env.CLOUDINARY_NAME,
@@ -83,22 +80,30 @@ const resolvers = {
         api_secret: process.env.CLOUDINARY_API_SECRET,
       });
       let result
+
+
       try {
-        result = await cloudinary.uploader.upload(photo, { 
-          upload_preset: "pictura_preset", 
+        result = await cloudinary.uploader.upload(args.imageBase64, {
+          upload_preset: "pictura_preset",
           folder: "customer_folder2",
-         })
-        
-        console.log('try 7')
-        
-        // const result = await cloudinary.v2.uploader.upload(photo, {
-        //   allowed_formats: ["jpg", "png"],
-        //   //generates a new id for each uploaded image
-        //   public_id: "",
-        //   /*creates a folder called "your_folder_name" where images will be stored.
-        //    */
-        //   folder: "customer_folder",
-        // });
+        })
+        console.log("uploaded to cloud")
+        // create picture to database
+        try {
+          const picture = await Picture.create({
+            filename: args.filename,
+            contentType: args.contentType,
+            imageBase64: args.imageBase64,
+            user: context.user._id,
+            cloud_assetId: result.asset_id,
+            cloud_url: result.url,
+          })
+          console.log("i am here");
+          console.log(picture);
+          return picture;
+        } catch (error) {
+          console.log(error);
+        }
       } catch (e) {
         //returns an error message on image upload failure.
         return `Image could not be uploaded:${e.message}`;
@@ -106,8 +111,8 @@ const resolvers = {
       /*returns uploaded photo url if successful `result.url`.
       if we were going to store image name in database,this
       */
-      console.log(result);
-      return `Successful-Photo URL: ${result.url}`;
+
+      // return `Successful-Photo URL: ${result.url}`;
 
     },
     // ORDERS MUTATION//

@@ -52,8 +52,7 @@ type Mutation {
   login(email: String!, password: String!): Auth
   addPictureOrder(size: String!, quantity: Int!, picture: [ID]!): PictureOrder
   addOrder(PictureOrder: [ID]!, user: ID!, status: String, note: String): Order
-  addPicture(filename: String!, contentType: String!, imageBase64: String!, user: ID!): Picture
-  uploadPhoto(photo: String): String
+  addPicture(filename: String!, contentType: String!, imageBase64: String!, cloud_assetId: String, cloud_url: String): Picture
 }
 `
 

@@ -13,7 +13,13 @@ const pictureSchema = new Schema({
   imageBase64: {
     type: String,
     required: true
-  }, 
+  },
+  cloud_assetId: {
+    type: String, 
+  },
+  cloud_url: {
+    type: String, 
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user',
