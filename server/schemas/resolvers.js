@@ -1,7 +1,8 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Picture, Order } = require('../models');
 const { signToken } = require('../utils/auth');
-
+const cloudinary = require('../config/cloudinary');
+require('dotenv').config();
 const resolvers = {
   Query: {
     // USERS QUERY//
@@ -24,7 +25,7 @@ const resolvers = {
     },
 
     // PICTURES QUERY//
-    picture: async (parent, {id}) => {
+    picture: async (parent, { id }) => {
       const picture = await Picture.findById(id).populate('user');
       console.log(id);
       return picture;

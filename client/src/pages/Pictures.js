@@ -41,7 +41,6 @@ function Pictures() {
   const handleUploadPictures = async (event) => {
     for (let i = 0; i < pictureFiles.length; i++) {
       const photo = await convertBase64(pictureFiles[i]);
-
       try {
         const {data} = await uploadPhoto({
           variables: {photo}
