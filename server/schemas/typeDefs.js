@@ -53,6 +53,7 @@ type Mutation {
   addPictureOrder(size: String!, quantity: Int!, picture: [ID]!): PictureOrder
   addOrder(PictureOrder: [ID]!, user: ID!, status: String, note: String): Order
   addPicture(filename: String!, contentType: String!, imageBase64: String!, user: ID!): Picture
+  uploadPhoto(photo: String): String
 }
 `
 

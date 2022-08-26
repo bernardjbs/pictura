@@ -39,21 +39,34 @@ function Pictures() {
 
   const handleUploadPictures = async (event) => {
     for (let i = 0; i < pictureFiles.length; i++) {
-      const imageBase64 = await convertBase64(pictureFiles[i]);
-      // console.log(base64Str);
-      console.log(pictureFiles[i])
-      const filename = pictureFiles[i].name;
-      const contentType = pictureFiles[i].type;
-      const userId = loggedInUser.data._id; 
+      const photo = await convertBase64(pictureFiles[i]);
 
       try {
-        const {data} = await addPicture({
-          variables: {filename, contentType, imageBase64, userId}
+        const {data} = await uploadPhoto({
+          variables: {photo}
         })
       } catch (error) {
         console.error(error);
-      }
-    }
+      };
+    };
+
+
+    // for (let i = 0; i < pictureFiles.length; i++) {
+    //   const imageBase64 = await convertBase64(pictureFiles[i]);
+    //   // console.log(base64Str);
+    //   console.log(pictureFiles[i])
+    //   const filename = pictureFiles[i].name;
+    //   const contentType = pictureFiles[i].type;
+    //   const userId = loggedInUser.data._id; 
+
+    //   try {
+    //     const {data} = await addPicture({
+    //       variables: {filename, contentType, imageBase64, userId}
+    //     })
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
   };
 
   return (
