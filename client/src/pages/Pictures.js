@@ -3,7 +3,7 @@ import { MdShoppingCart } from 'react-icons/md';
 import { useMutation } from '@apollo/client';
 
 import PictureCard from '../components/PictureCard';
-import { ADD_PICTURE } from '../utils/mutations';
+import { ADD_PICTURE, UPLOAD_PHOTO } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 
