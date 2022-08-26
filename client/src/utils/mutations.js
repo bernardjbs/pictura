@@ -24,3 +24,9 @@ export const ADD_PICTURE = gql`
     }
   }
 `;
+
+export const UPLOAD_PHOTO = gql`
+  mutation uploadPhoto($photo: String!) {
+    uploadPhoto(photo: $photo) 
+  }
+`;
