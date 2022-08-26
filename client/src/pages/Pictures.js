@@ -28,6 +28,7 @@ const convertBase64 = (file) => {
 
 function Pictures() {
   const [addPicture, { error }] = useMutation(ADD_PICTURE)
+  const [uploadPhoto] = useMutation(UPLOAD_PHOTO)
 
   // Declaring States
   const [pictureFiles, setPictureFiles] = useState('');
