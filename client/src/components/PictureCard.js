@@ -7,20 +7,17 @@ import SizeOrder from './SizeOrder';
 
 const AddedElement = () => <p><SizeOrder /></p>
 
-export default function PictureCard() {
+export default function PictureCard({cloud_url}) {
 
-  const [count, setCount] = useState(0) // Name it however you wish
-
+  const [count, setCount] = useState(0) 
   return (
-
-
     <>
       <div>
         <div className="bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
           <div className='flex flex-wrap'>
             <div className='w-full h-72 p-1 md:p-2'>
               <img alt='gallery' className='block object-cover object-center w-full h-full rounded-lg'
-                src={img_01} />
+                src={cloud_url} />
             </div>
           </div>
           <a href="#">

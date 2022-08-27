@@ -1,19 +1,46 @@
+import { gql } from '@apollo/client';
+
+
 export const QUERY_USER = gql`
   {
     user {
       firstName
       lastName
-      orders {
+      email
+      pictures {
         _id
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          price
-          quantity
-          image
+        cloud_url
+      }
+    }
+  }
+`;
+
+// export const QUERY_USER = gql`
+//     query($firstName: String){
+//       user(firstName: $firstName) {
+//       firstName
+//       lastName
+//     }
+//   }
+// `;
+export const QUERY_PICTURE = gql`
+  {
+    picture {
+      filename
+      contentType
+      imageBase64
+      cloud_assetId
+      cloud_url
+      user
+      orders {
+        pictureOrders {
+          pictureOrder {
+            size
+            quantity
+          }
         }
+        status
+        note
       }
     }
   }

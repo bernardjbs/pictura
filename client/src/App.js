@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Store from './utils/GlobalState';
 import Nav from '../src/components/Nav'
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -17,7 +18,7 @@ let httpLink;
 if (process.env.NODE_ENV === 'development') {
   httpLink = createHttpLink({
     uri: 'http://localhost:3001/graphql',
-  });  
+  });
 } else {
   httpLink = createHttpLink({
     uri: '/graphql',
@@ -43,15 +44,16 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Nav />
-      <section className='app-container'>
-        <Routes>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='/login' element={<Login />}></Route>
-          <Route path='/pictures' element={<Pictures />}></Route>
-
-        </Routes>
-      </section>
+      <Store>
+        <Nav />
+        <section className='app-container'>
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/login' element={<Login />}></Route>
+            <Route path='/pictures' element={<Pictures />}></Route>
+          </Routes>
+        </section>
+      </Store>
     </ApolloProvider>
   )
 };

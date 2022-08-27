@@ -7,8 +7,9 @@ const resolvers = {
   Query: {
     // USERS QUERY//
     user: async (parent, args, context) => {
+      console.log("Checking user")
       if (context.user) {
-        const user = await User.findById(context.user._id)
+        const user = await User.findById(context.user._id).populate('pictures')
         return user;
       }
       throw new AuthenticationError('Not logged in');
@@ -90,7 +91,7 @@ const resolvers = {
         console.log("uploaded to cloud")
         // create picture to database
         try {
-          const picture = await Picture.create({
+          const picture = new Picture({
             filename: args.filename,
             contentType: args.contentType,
             imageBase64: args.imageBase64,
@@ -98,8 +99,8 @@ const resolvers = {
             cloud_assetId: result.asset_id,
             cloud_url: result.url,
           })
-          console.log("i am here");
-          console.log(picture);
+          await Picture.create(picture);
+          await User.findByIdAndUpdate(context.user._id, { $push: { pictures: picture } });
           return picture;
         } catch (error) {
           console.log(error);
@@ -108,11 +109,34 @@ const resolvers = {
         //returns an error message on image upload failure.
         return `Image could not be uploaded:${e.message}`;
       }
-      /*returns uploaded photo url if successful `result.url`.
-      if we were going to store image name in database,this
-      */
 
-      // return `Successful-Photo URL: ${result.url}`;
+
+
+      // try {
+      //   result = await cloudinary.uploader.upload(args.imageBase64, {
+      //     upload_preset: "pictura_preset",
+      //     folder: "customer_folder2",
+      //   })
+      //   console.log("uploaded to cloud")
+      //   // create picture to database
+      //   try {
+      //     const picture = await Picture.create({
+      //       filename: args.filename,
+      //       contentType: args.contentType,
+      //       imageBase64: args.imageBase64,
+      //       user: context.user._id,
+      //       cloud_assetId: result.asset_id,
+      //       cloud_url: result.url,
+      //     })
+      //     console.log(picture);
+      //     return picture;
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // } catch (e) {
+      //   //returns an error message on image upload failure.
+      //   return `Image could not be uploaded:${e.message}`;
+      // }
 
     },
     // ORDERS MUTATION//

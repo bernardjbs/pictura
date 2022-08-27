@@ -28,6 +28,7 @@ type Picture {
   filename: String
   contentType: String
   imageBase64: String
+  cloud_url: String
 }
 
 type PictureOrder {
