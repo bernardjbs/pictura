@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
-import { useMutation } from '@apollo/client';
+import React, { useState, useEffect, useContext } from 'react'
+import { Context } from '../utils/GlobalState';
 
-import img_01 from '../assets/img/test_img/01.JPG';
 import SizeOrder from './SizeOrder';
-
 
 const AddedElement = () => <p><SizeOrder /></p>
 
-export default function PictureCard({cloud_url}) {
+export default function PictureCard({ cloud_url, user }) {
+  const [userState, setUserState] = useContext(Context);
 
-  const [count, setCount] = useState(0) 
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    setUserState(user)
+  })
   return (
     <>
       <div>
@@ -32,7 +35,7 @@ export default function PictureCard({cloud_url}) {
             <button onClick={() => setCount(count + 1)} className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               Add to Cart
             </button>
-            { [...Array(count)].map((_, i) => <AddedElement key={i} />) }
+            {[...Array(count)].map((_, i) => <AddedElement key={i} />)}
           </div>
         </div>
       </div>

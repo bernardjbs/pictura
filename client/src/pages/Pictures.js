@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react'
-import { Context } from '../utils/GlobalState';
+import React, { useState } from 'react'
 
 import { useQuery, useMutation } from '@apollo/client';
 import PictureCard from '../components/PictureCard';
@@ -9,16 +8,12 @@ import { QUERY_USER } from '../utils/queries';
 
 function Pictures() {
 
-  const [state, setState] = useContext(Context);
-
   const [addPicture, { error }] = useMutation(ADD_PICTURE)
   const [pictureFiles, setPictureFiles] = useState('');
-  // const { data } = useQuery(QUERY_USER, {pollInterval: 100});
   const { data, refetch, loading } = useQuery(QUERY_USER);
   let user;
   if (data) {
     user = data.user;
-    setState(user);
   }
 
   const convertBase64 = (file) => {
@@ -98,9 +93,9 @@ function Pictures() {
 
                 <div className='flex flex-wrap -m-1 md:-m-2'>
                   {user.pictures.map(url => (
-                    <div className='flex flex-wrap w-1/3'>
+                    <div className='flex flex-wrap w-1/3' key={url.cloud_url}>
                       <div className='w-full p-1 md:p-2'>
-                        <PictureCard cloud_url={url.cloud_url} />
+                        <PictureCard cloud_url={url.cloud_url} user={user} />
                       </div>
                     </div>
                   ))}
