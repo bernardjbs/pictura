@@ -24,7 +24,7 @@ export default function PictureCard({ cloud_url, user, pictureId }) {
       }
       setCartItemsState(newItems);
     }
-    console.log(cartItemsState)
+    // console.log(cartItemsState)
   };
 
   return (

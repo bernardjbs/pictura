@@ -2,12 +2,14 @@ import React, { useState, useContext } from 'react'
 
 import { useQuery, useMutation } from '@apollo/client';
 import PictureCard from '../components/PictureCard';
+import CartDrawer from '../components/CartDrawer';
+
 import { ADD_PICTURE } from '../utils/mutations';
 import { QUERY_USER } from '../utils/queries';
 import { Context } from '../utils/GlobalState';
 
 function Pictures() {
-
+  const [isOpen, setIsOpen] = useState(false);
   const [addPicture, { error }] = useMutation(ADD_PICTURE)
   const [pictureFiles, setPictureFiles] = useState('');
   const { data, refetch, loading } = useQuery(QUERY_USER);
@@ -16,11 +18,6 @@ function Pictures() {
   let user;
   if (data) {
     user = data.user;
-  }
-
-  const handleTestClick = () => {
-    const items = cartItemsState.cartItems;
-    items.push('pictureId');
   }
 
   const convertBase64 = (file) => {
@@ -62,7 +59,6 @@ function Pictures() {
   return (
     <>
       {/* <Count /> */}
-
       <section className='overflow-hidden text-gray-700 '>
         {user ? (
           <>
@@ -99,7 +95,7 @@ function Pictures() {
                   </div>
 
 
-                  <button type='button' className='inline-flex items-center px-5 py-2.5 btn-primary'>
+                  <button type='button' className='inline-flex items-center px-5 py-2.5 btn-primary' onClick={() =>setIsOpen(true)}>
                     My Cart
                     <span className='inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full'>
                       {cartItemsState.cartItems.length}
@@ -122,7 +118,8 @@ function Pictures() {
           </>
         ) : <h1>...Loading</h1>}
       </section>
-
+      <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} headerTitle='My Cart'>
+      </CartDrawer>
     </>
   )
 }
