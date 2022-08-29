@@ -5,16 +5,31 @@ import SizeOrder from './SizeOrder';
 
 const AddedElement = () => <p><SizeOrder /></p>
 
-export default function PictureCard({ cloud_url, user }) {
-  const [userState, setUserState] = useContext(Context);
-
-  const [count, setCount] = useState(0)
+export default function PictureCard({ cloud_url, user, pictureId }) {
+  // const  {userContext}= useContext(Context);
+  const [userState, setUserState] = useContext(Context)['user'];
+  const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
 
   useEffect(() => {
     setUserState(user)
   })
+
+  const handleAddToCart = (pictureId) => {
+    if (cartItemsState.cartItems.includes(pictureId)) {
+      console.log('add toaster here');
+    } else {
+      const newItemArray = [...cartItemsState.cartItems, pictureId]
+      const newItems = {
+        cartItems: newItemArray
+      }
+      setCartItemsState(newItems);
+    }
+    console.log(cartItemsState)
+  };
+
   return (
     <>
+      {/* <h1>The state for cart: {updateCartCount()}</h1> */}
       <div>
         <div className="bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
           <div className='flex flex-wrap'>
@@ -32,13 +47,13 @@ export default function PictureCard({ cloud_url, user }) {
             </a>
 
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Picture description</p>
-            <button onClick={() => setCount(count + 1)} className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button onClick={() => handleAddToCart(pictureId)} className="inline-flex items-center py-2 px-3 btn-primary">
               Add to Cart
             </button>
-            {[...Array(count)].map((_, i) => <AddedElement key={i} />)}
           </div>
         </div>
       </div>
+
     </>
   )
 }

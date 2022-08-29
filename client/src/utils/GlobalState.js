@@ -24,12 +24,20 @@ const initialUserState = {
   user: {},
 };
 
+const initialCartItems = {
+  cartItems: [],
+};
+
 export const Context = createContext();
 
 const Store = ({ children }) => {
   const [userState, setUserState] = useState(initialUserState);
+  const [cartItemsState, setCartItemsState] = useState(initialCartItems);
   return (
-    <Context.Provider value={[userState, setUserState]}>
+    <Context.Provider value={{
+      'user': [userState, setUserState],
+      'cartItems': [cartItemsState, setCartItemsState]
+    }}>
       {children}
     </Context.Provider>
   );

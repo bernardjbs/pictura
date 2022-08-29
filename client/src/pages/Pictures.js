@@ -1,19 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { useQuery, useMutation } from '@apollo/client';
 import PictureCard from '../components/PictureCard';
 import { ADD_PICTURE } from '../utils/mutations';
 import { QUERY_USER } from '../utils/queries';
-
+import { Context } from '../utils/GlobalState';
 
 function Pictures() {
 
   const [addPicture, { error }] = useMutation(ADD_PICTURE)
   const [pictureFiles, setPictureFiles] = useState('');
   const { data, refetch, loading } = useQuery(QUERY_USER);
+  const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
+
   let user;
   if (data) {
     user = data.user;
+  }
+
+  const handleTestClick = () => {
+    const items = cartItemsState.cartItems;
+    items.push('pictureId');
   }
 
   const convertBase64 = (file) => {
@@ -54,7 +61,8 @@ function Pictures() {
 
   return (
     <>
-      {/* <h1>User: {user.data._id}</h1> */}
+      {/* <Count /> */}
+
       <section className='overflow-hidden text-gray-700 '>
         {user ? (
           <>
@@ -87,15 +95,24 @@ function Pictures() {
                     </div>
                   </div>
                   <div className='ml-2 flex align-middle'>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={() => handleUploadPictures()}>Upload</button>
+                    <button className='btn-primary py-2 px-4 rounded' onClick={() => handleUploadPictures()}>Upload</button>
                   </div>
+
+
+                  <button type='button' className='inline-flex items-center px-5 py-2.5 btn-primary'>
+                    My Cart
+                    <span className='inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full'>
+                      {cartItemsState.cartItems.length}
+                    </span>
+                  </button>
+
                 </section>
 
                 <div className='flex flex-wrap -m-1 md:-m-2'>
-                  {user.pictures.map(url => (
-                    <div className='flex flex-wrap w-1/3' key={url.cloud_url}>
+                  {user.pictures.map(picture => (
+                    <div className='flex flex-wrap w-1/3' key={picture._id}>
                       <div className='w-full p-1 md:p-2'>
-                        <PictureCard cloud_url={url.cloud_url} user={user} />
+                        <PictureCard cloud_url={picture.cloud_url} user={user} pictureId={picture._id} />
                       </div>
                     </div>
                   ))}
@@ -105,6 +122,7 @@ function Pictures() {
           </>
         ) : <h1>...Loading</h1>}
       </section>
+
     </>
   )
 }
