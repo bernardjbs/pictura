@@ -38,6 +38,12 @@ type PictureOrder {
   picture: Picture!
 }
 
+type PrintSize {
+  _id: ID
+  size: String
+  price: Float
+}
+
 type Query {
   user: User
   users: [User]
@@ -45,6 +51,7 @@ type Query {
   orders: [Order]
   picture(id: ID!): Picture
   pictures: [Picture]
+  printSizes: [PrintSize]
 }
 
 type Mutation {

@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Picture, Order } = require('../models');
+const { User, Picture, Order, PrintSize } = require('../models');
 const { signToken } = require('../utils/auth');
 const cloudinary = require('../config/cloudinary');
 require('dotenv').config();
@@ -36,6 +36,17 @@ const resolvers = {
       try {
         const pictures = await Picture.find().populate('user');
         return pictures;
+      } catch (error) {
+        throw new Error(error);
+      };
+    },
+
+    printSizes: async () => {
+      try {
+
+        const printSizes = await PrintSize.find();
+        console.log(printSizes)
+        return printSizes;
       } catch (error) {
         throw new Error(error);
       };

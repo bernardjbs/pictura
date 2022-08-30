@@ -59,7 +59,7 @@ function Pictures() {
   return (
     <>
       {/* <Count /> */}
-      <section className='overflow-hidden text-gray-700 '>
+      <section className='overflow-hidden text-gray-700 mb-48'>
         {user ? (
           <>
             {/* {console.log(user.pictures)} */}

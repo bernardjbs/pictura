@@ -23,6 +23,17 @@ export const QUERY_USER = gql`
 //     }
 //   }
 // `;
+
+export const QUERY_PRINT_SIZES = gql `
+  {
+    printSizes {
+      _id
+      size
+      price
+    }
+  }
+`;
+
 export const QUERY_PICTURE = gql`
   {
     picture {

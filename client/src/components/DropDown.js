@@ -1,0 +1,36 @@
+import { useState, useContext, useEffect } from 'react'
+import { Context } from '../utils/GlobalState';
+import { useQuery } from '@apollo/client';
+import { QUERY_PRINT_SIZES } from '../utils/queries';
+
+export default function DropDown() {
+  const [printSizes, setPrintSizes] = useState([])
+  const { data } = useQuery(QUERY_PRINT_SIZES);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setPrintSizes(data.printSizes)
+    }
+  })
+
+  return (
+    <>
+      <div>
+        {/* {console.log(data) */}
+        <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option defaultValue>Choose a size</option>
+          {
+            data ?
+              (
+                data.printSizes.map(printSize => (
+                  <option key={printSize._id} value={printSize.size}>{printSize.size}</option>
+                ))
+              )
+              :
+              (console.log('data not available'))
+          }
+        </select>
+      </div>
+    </>
+  )
+}

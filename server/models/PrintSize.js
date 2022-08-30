@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 // Image uploads
 const printSizeSchema = new Schema(
   {
-    dimension: {
+    size: {
       type: String, 
       required: true,
     }, 

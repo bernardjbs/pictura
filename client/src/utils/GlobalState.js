@@ -28,6 +28,9 @@ const initialCartItems = {
   cartItems: [],
 };
 
+const initialSelectedSize = {
+  printSize: 'Select Size',
+}
 export const Context = createContext();
 
 const Store = ({ children }) => {
@@ -36,7 +39,7 @@ const Store = ({ children }) => {
   return (
     <Context.Provider value={{
       'user': [userState, setUserState],
-      'cartItems': [cartItemsState, setCartItemsState]
+      'cartItems': [cartItemsState, setCartItemsState],
     }}>
       {children}
     </Context.Provider>
