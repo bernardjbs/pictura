@@ -7,7 +7,7 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
   const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
   const [ordersState, setOrdersState] = useContext(Context)['orders'];
   const [isPictureDrawerOpen, setIsPictureDrawerOpen] = useState(false);
-  
+
   const qtyOperation = (i, operation) => {
     let items = cartItemsState.cartItems;
     let qty, amount
@@ -15,16 +15,16 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
     if (operation === 'increment') {
       qty = ++cartItemsState.cartItems[i].quantity
       amount = cartItemsState.totalAmount + parseFloat(cartItemsState.cartItems[i].unitPrice)
-    } else if(operation === 'decrement') {
+    } else if (operation === 'decrement') {
       qty = --cartItemsState.cartItems[i].quantity
-      amount = cartItemsState.totalAmount - parseFloat(cartItemsState.cartItems[i].unitPrice)  
+      amount = cartItemsState.totalAmount - parseFloat(cartItemsState.cartItems[i].unitPrice)
     } else {
       qty = cartItemsState.cartItems[i].quantity
     }
-    const unitPrice = cartItemsState.cartItems[i].unitPrice 
+    const unitPrice = cartItemsState.cartItems[i].unitPrice
     items[i] = { ...items[i], quantity: qty }
-    setCartItemsState({ 
-      cartItems: items ,
+    setCartItemsState({
+      cartItems: items,
       totalAmount: amount
     })
   };
@@ -70,7 +70,7 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                     Price
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    <span className="sr-only">Edit</span>
+
                   </th>
                 </tr>
               </thead>
@@ -78,7 +78,17 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                 {cartItemsState.cartItems.map((cartItem, i) => (
                   <tr key={generateId(6)} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>Image 01</span>
+                      <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>
+
+                        <div class="flex flex-wrap justify-center w-full h-12">
+                          <img
+                            src={cartItem.cloud_url}
+                            class="block object-cover object-center w-full h-full"
+                            alt=""
+                          />
+                        </div>
+
+                      </span>
                     </th>
                     <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {cartItem.filename}
@@ -110,7 +120,7 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                     <td className="py-4 px-6">
                       ${calculatePrice(cartItem)}
                     </td>
-                    <td className="py-4 px-6 text-right">
+                    <td className="py-4 px-6 text-center">
                       <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
                     </td>
                   </tr>
@@ -129,7 +139,9 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                     ${parseFloat(cartItemsState.totalAmount).toFixed(2)}
                   </th>
                   <th scope="col" className="py-3 px-6">
-                    <span className="sr-only">Edit</span>
+                    <div className='flex justify-end'>
+                      <button className='btn-primary p-2'>Make Payment</button>
+                    </div>
                   </th>
                 </tr>
               </tbody>
@@ -137,6 +149,7 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
             <PictureDrawer isOpen={isPictureDrawerOpen} setIsOpen={setIsPictureDrawerOpen}></PictureDrawer>
           </div>
         </article>
+
       </section>
       <section
         className=" w-screen h-full cursor-pointer "
