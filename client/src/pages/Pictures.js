@@ -62,8 +62,6 @@ function Pictures() {
       <section className='overflow-hidden text-gray-700 mb-48'>
         {user ? (
           <>
-            {/* {console.log(user.pictures)} */}
-
             <h2>
               Pictures for {user.firstName} {user.lastName}
             </h2>

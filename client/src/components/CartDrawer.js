@@ -1,8 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from 'react'
+import { Context } from '../utils/GlobalState';
 import PictureDrawer from './PictureDrawer';
+import generateId from '../utils/generateId';
 
 export default function CartDrawer({ isOpen, setIsOpen }) {
+  const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
+  const [ordersState, setOrdersState] = useContext(Context)['orders'];
   const [isPictureDrawerOpen, setIsPictureDrawerOpen] = useState(false);
+  
+  const qtyOperation = (i, operation) => {
+    let items = cartItemsState.cartItems;
+    let qty, amount
+
+    if (operation === 'increment') {
+      qty = ++cartItemsState.cartItems[i].quantity
+      amount = cartItemsState.totalAmount + parseFloat(cartItemsState.cartItems[i].unitPrice)
+    } else if(operation === 'decrement') {
+      qty = --cartItemsState.cartItems[i].quantity
+      amount = cartItemsState.totalAmount - parseFloat(cartItemsState.cartItems[i].unitPrice)  
+    } else {
+      qty = cartItemsState.cartItems[i].quantity
+    }
+    const unitPrice = cartItemsState.cartItems[i].unitPrice 
+    items[i] = { ...items[i], quantity: qty }
+    setCartItemsState({ 
+      cartItems: items ,
+      totalAmount: amount
+    })
+  };
+
+  const calculatePrice = (item) => {
+    const subTotal = parseFloat(item.quantity * item.unitPrice).toFixed(2);
+    return subTotal;
+  }
   return (
     <main
       className={
@@ -45,65 +75,62 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
                 </tr>
               </thead>
               <tbody>
+                {cartItemsState.cartItems.map((cartItem, i) => (
+                  <tr key={generateId(6)} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>Image 01</span>
+                    </th>
+                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {cartItem.filename}
+                    </th>
+                    <td className="py-4 px-6">
+                      <div className='flex ml-1'>
+                        <button
+                          className='btn-primary w-4 rounded-sm mr-1.5'
+                          onClick={() => {
+                            qtyOperation(i, 'decrement')
+                          }}
+                        >
+                          -
+                        </button>
+                        <p>{cartItem.quantity}</p>
+                        <button
+                          className='btn-primary w-4 rounded-sm ml-1.5'
+                          onClick={() => {
+                            qtyOperation(i, 'increment')
+                          }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td className="py-4 px-6">
+                      {cartItem.size}
+                    </td>
+                    <td className="py-4 px-6">
+                      ${calculatePrice(cartItem)}
+                    </td>
+                    <td className="py-4 px-6 text-right">
+                      <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
+                    </td>
+                  </tr>
+                ))}
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>Image 01</span>
+                  <th scope="col" className="py-3 px-6">
                   </th>
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Filename01.jpg
+                  <th scope="col" className="py-3 px-6">
                   </th>
-                  <td className="py-4 px-6">
-                    2
-                  </td>
-                  <td className="py-4 px-6">
-                    10x15
-                  </td>
-                  <td className="py-4 px-6">
-                    $2.00
-                  </td>
-                  <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
-                  </td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>Image 02</span>
+                  <th scope="col" className="py-3 px-6">
                   </th>
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Filename02.jpg
+                  <th scope="col" className="py-3 px-6">
+                    TOTAL
                   </th>
-                  <td className="py-4 px-6">
-                    10
-                  </td>
-                  <td className="py-4 px-6">
-                    15x20
-                  </td>
-                  <td className="py-4 px-6">
-                    $25.00
-                  </td>
-                  <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
-                  </td>
-                </tr>
-                <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>Image 03</span>
+                  <th scope="col" className="py-3 px-6">
+                    ${parseFloat(cartItemsState.totalAmount).toFixed(2)}
                   </th>
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Filename03.jpg
+                  <th scope="col" className="py-3 px-6">
+                    <span className="sr-only">Edit</span>
                   </th>
-                  <td className="py-4 px-6">
-                    5
-                  </td>
-                  <td className="py-4 px-6">
-                    10x15
-                  </td>
-                  <td className="py-4 px-6">
-                    $5.00
-                  </td>
-                  <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Remove</a>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -119,5 +146,7 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
       >
       </section>
     </main>
+
+    // TODO: On checkout map through cartItems, set the global state orders and save to db
   );
 }

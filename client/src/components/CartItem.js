@@ -6,8 +6,6 @@ export default function CartItem() {
   const [isOpen, setIsOpen] = useState(false);
 
   const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
-  console.log(cartItemsState)
-
   return (
 
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg">

@@ -1,23 +1,3 @@
-// import React, { createContext, useContext } from "react";
-// import { useProductReducer } from './reducers'
-
-// const StoreContext = createContext();
-// const { Provider } = StoreContext;
-
-// const StoreProvider = ({ value = [], ...props }) => {
-//   const [state, dispatch] = useProductReducer({
-//     user: {},
-//   });
-
-//   return <Provider value={[state, dispatch]} {...props} />;
-// };
-
-// const useStoreContext = () => {
-//   return useContext(StoreContext);
-// };
-
-// export { StoreProvider, useStoreContext };
-
 import React, { createContext, useState } from 'react';
 
 const initialUserState = {
@@ -25,21 +5,37 @@ const initialUserState = {
 };
 
 const initialCartItems = {
+  totalAmount: 0,
   cartItems: [],
 };
 
 const initialSelectedSize = {
-  printSize: 'Select Size',
+  printSize: '',
+  unitPrice: 0
 }
+
+const initialOrders = [
+  {
+    customerId: '',
+    pictureId: '',
+    cloud_url: '',
+    size: '',
+    quantity: 1,
+  }
+]
 export const Context = createContext();
 
 const Store = ({ children }) => {
   const [userState, setUserState] = useState(initialUserState);
   const [cartItemsState, setCartItemsState] = useState(initialCartItems);
+  const [selectedSizeState, setSelectedSizeState] = useState(initialSelectedSize);
+  const [ordersState, setOrdersState] = useState(initialOrders);
   return (
     <Context.Provider value={{
       'user': [userState, setUserState],
       'cartItems': [cartItemsState, setCartItemsState],
+      'selectedSize': [selectedSizeState, setSelectedSizeState],
+      'orders': [ordersState, setOrdersState],
     }}>
       {children}
     </Context.Provider>

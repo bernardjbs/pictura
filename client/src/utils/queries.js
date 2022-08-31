@@ -15,16 +15,7 @@ export const QUERY_USER = gql`
   }
 `;
 
-// export const QUERY_USER = gql`
-//     query($firstName: String){
-//       user(firstName: $firstName) {
-//       firstName
-//       lastName
-//     }
-//   }
-// `;
-
-export const QUERY_PRINT_SIZES = gql `
+export const QUERY_PRINT_SIZES = gql`
   {
     printSizes {
       _id
@@ -35,24 +26,14 @@ export const QUERY_PRINT_SIZES = gql `
 `;
 
 export const QUERY_PICTURE = gql`
-  {
-    picture {
+  query getPicture($id: ID!) {
+    picture(id: $id) {
       filename
       contentType
       imageBase64
       cloud_assetId
       cloud_url
       user
-      orders {
-        pictureOrders {
-          pictureOrder {
-            size
-            quantity
-          }
-        }
-        status
-        note
-      }
     }
   }
 `;

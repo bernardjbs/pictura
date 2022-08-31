@@ -29,7 +29,8 @@ const pictureSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'order',
     },
-  ]
+  ], 
+  
 });
 
 const Picture = model('picture', pictureSchema);

@@ -7,7 +7,6 @@ const resolvers = {
   Query: {
     // USERS QUERY//
     user: async (parent, args, context) => {
-      console.log("Checking user")
       if (context.user) {
         const user = await User.findById(context.user._id).populate('pictures')
         return user;
@@ -18,7 +17,6 @@ const resolvers = {
     users: async () => {
       try {
         const users = await User.find();
-        console.log(users)
         return users;
       } catch (error) {
         throw new Error(error);
@@ -27,8 +25,7 @@ const resolvers = {
 
     // PICTURES QUERY//
     picture: async (parent, { id }) => {
-      const picture = await Picture.findById(id).populate('user');
-      console.log(id);
+      const picture = await Picture.findOne({ _id: id });
       return picture;
     },
 
@@ -45,7 +42,6 @@ const resolvers = {
       try {
 
         const printSizes = await PrintSize.find();
-        console.log(printSizes)
         return printSizes;
       } catch (error) {
         throw new Error(error);
@@ -84,7 +80,6 @@ const resolvers = {
     // PICTURES MUTATION//
 
     addPicture: async (_, args, context) => {
-      console.log
       // try-catch block for handling actual image upload
       cloudinary.config({
         cloud_name: process.env.CLOUDINARY_NAME,

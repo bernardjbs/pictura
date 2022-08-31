@@ -24,11 +24,13 @@ type Order {
 
 type Picture {
   _id: ID
-  user: User
   filename: String
   contentType: String
   imageBase64: String
+  cloud_assetId: String
   cloud_url: String
+  user: ID
+  orders: [Order]
 }
 
 type PictureOrder {

@@ -1,31 +1,44 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
+import { useLazyQuery } from '@apollo/client';
+
+import Auth from '../utils/auth';
 import { Context } from '../utils/GlobalState';
+import { QUERY_PICTURE } from '../utils/queries';
+
 import DropDown from './DropDown';
 
 export default function PictureCard({ cloud_url, user, pictureId }) {
   const [userState, setUserState] = useContext(Context)['user'];
   const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
+  const [selectedSizeState, setSelectedSizeState] = useContext(Context)['selectedSize'];
 
+  // const { data } = useQuery(QUERY_PICTURE, {variables: {PictureId: }});
+  const [getPicture, { data }] = useLazyQuery(QUERY_PICTURE);
 
   useEffect(() => {
     setUserState(user)
   })
 
   const handleAddToCart = (pictureId) => {
-    if (cartItemsState.cartItems.includes(pictureId)) {
-      console.log('add toaster here');
-    } else {
+    getPicture({ variables: { id: pictureId } }).then(picture => {
+      const currentTotal = cartItemsState.totalAmount;
+      const selectedPicture = picture.data.picture;
       const newItem = {
+        customerId: Auth.getProfile().data._id,
         pictureId: pictureId,
-        size: '10x15'
+        filename: selectedPicture.filename,
+        size: selectedSizeState.printSize, 
+        quantity: 1,
+        cloud_url: selectedPicture.cloud_url,
+        unitPrice: selectedSizeState.unitPrice
       }
       const newItemArray = [...cartItemsState.cartItems, newItem]
       const newItems = {
-        cartItems: newItemArray
+        cartItems: newItemArray,
+        totalAmount: currentTotal + (newItem.quantity * newItem.unitPrice)
       }
       setCartItemsState(newItems);
-    }
-    console.log(cartItemsState)
+    });
   };
 
   return (
@@ -42,12 +55,12 @@ export default function PictureCard({ cloud_url, user, pictureId }) {
             <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>Filename</h5>
             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Picture description</p>
             <section className='flex items-center'>
-                <div> <DropDown /></div>
-                <div>
-                  <button onClick={() => handleAddToCart(pictureId)} className='inline-flex items-center py-2 px-3 mx-4 btn-primary'>
-                    Add to Cart
-                  </button>
-                </div>
+              <div> <DropDown /></div>
+              <div>
+                <button onClick={() => handleAddToCart(pictureId)} className='inline-flex items-center py-2 px-3 mx-4 btn-primary'>
+                  Add to Cart
+                </button>
+              </div>
             </section>
           </div>
         </div>
