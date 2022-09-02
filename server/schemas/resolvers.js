@@ -3,6 +3,7 @@ const { User, Picture, Order, PrintSize } = require('../models');
 const { signToken } = require('../utils/auth');
 const cloudinary = require('../config/cloudinary');
 const path = require('path');
+const { Console } = require('console');
 
 
 require("dotenv").config({
@@ -64,6 +65,8 @@ const resolvers = {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
+      console.log(token)
+      console.log(user)
       return { token, user };
     },
 
