@@ -5,6 +5,7 @@ import Nav from '../src/components/Nav'
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Pictures from './pages/Pictures';
+import Success from './pages/Success';
 
 import {
   ApolloClient,
@@ -48,10 +49,10 @@ function App() {
         <Nav />
         <section className='app-container'>
           <Routes>
-            <Route path='/' element={<Home />}></Route>
-            <Route path='/login' element={<Login />}></Route>
-            <Route path='/pictures' element={<Pictures />}></Route>
-            
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/pictures' element={<Pictures />} />
+            <Route path='/success' element={<Success />} />
           </Routes>
         </section>
       </Store>
