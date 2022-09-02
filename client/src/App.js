@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Pictures from './pages/Pictures';
 import Success from './pages/Success';
+import Signup from './pages/Signup';
 
 import {
   ApolloClient,
@@ -53,6 +54,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/pictures' element={<Pictures />} />
             <Route path='/success' element={<Success />} />
+            <Route path='/signup' element={<Signup />} />
           </Routes>
         </section>
       </Store>
