@@ -2,7 +2,17 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User, Picture, Order, PrintSize } = require('../models');
 const { signToken } = require('../utils/auth');
 const cloudinary = require('../config/cloudinary');
-require('dotenv').config();
+const path = require('path');
+
+
+require("dotenv").config({
+  path: path.resolve(__dirname, '../../.env')
+});
+console.log(__dirname)
+console.log(process.env.STRIPE_KEY)
+
+const stripe = require('stripe')(process.env.STRIPE_KEY)
+
 const resolvers = {
   Query: {
     // USERS QUERY//
@@ -115,36 +125,48 @@ const resolvers = {
         //returns an error message on image upload failure.
         return `Image could not be uploaded:${e.message}`;
       }
-
-
-
-      // try {
-      //   result = await cloudinary.uploader.upload(args.imageBase64, {
-      //     upload_preset: "pictura_preset",
-      //     folder: "customer_folder2",
-      //   })
-      //   console.log("uploaded to cloud")
-      //   // create picture to database
-      //   try {
-      //     const picture = await Picture.create({
-      //       filename: args.filename,
-      //       contentType: args.contentType,
-      //       imageBase64: args.imageBase64,
-      //       user: context.user._id,
-      //       cloud_assetId: result.asset_id,
-      //       cloud_url: result.url,
-      //     })
-      //     console.log(picture);
-      //     return picture;
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // } catch (e) {
-      //   //returns an error message on image upload failure.
-      //   return `Image could not be uploaded:${e.message}`;
-      // }
-
     },
+
+    createCheckoutSession: async (parent , { items }) => {
+      let origin
+      if(process.env.NODE_ENV === 'production') {
+        origin = process.env.PROD_URI
+      } else {
+        origin = process.env.DEV_URI
+      }
+
+      // map orders for line items
+
+      const line_items = items.map((item) => {
+        const unitPrice = parseFloat(item.unitPrice).toFixed(2);
+        return {
+          quantity: item.quantity,
+          price_data: {
+            currency: 'AUD',
+            unit_amount: unitPrice * 100,
+            product_data: {
+              name: item.filename,
+              description: item.description || undefined,
+              images: item.cloud_url ? [item.cloud_url] : [],
+            },
+          },
+        };
+      });
+
+      const session = await stripe.checkout.sessions.create({
+        success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/pictures?cancelled=true`,
+        line_items,
+        mode: "payment",
+      });
+      console.log('session url')
+      console.log(session.url)
+      return {
+        sessionId: session.id,
+        sessionURL: session.url,
+      };
+    }
+
     // ORDERS MUTATION//
     // addOrder: async (parent, args) => {
     //   const order = await Order.create(args);

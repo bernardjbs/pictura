@@ -46,6 +46,22 @@ type PrintSize {
   price: Float
 }
 
+type CheckoutSession {
+  sessionId: ID!
+  sessionURL: String
+}
+
+input CreateCheckoutSessionInput {
+  cartId: ID!
+}
+
+input CartItem {
+  quantity: Int
+  unitPrice: String
+  filename: String
+  cloud_url: String
+}
+
 type Query {
   user: User
   users: [User]
@@ -63,6 +79,7 @@ type Mutation {
   addPictureOrder(size: String!, quantity: Int!, picture: [ID]!): PictureOrder
   addOrder(PictureOrder: [ID]!, user: ID!, status: String, note: String): Order
   addPicture(filename: String!, contentType: String!, imageBase64: String!, cloud_assetId: String, cloud_url: String): Picture
+  createCheckoutSession(items: [CartItem]): CheckoutSession
 }
 `
 
