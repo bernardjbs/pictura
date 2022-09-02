@@ -58,7 +58,6 @@ function Pictures() {
 
   return (
     <>
-      {/* <Count /> */}
       <section className='overflow-hidden text-gray-700 mb-48'>
         {user ? (
           <>

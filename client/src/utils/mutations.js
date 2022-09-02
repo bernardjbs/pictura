@@ -21,3 +21,12 @@ export const ADD_PICTURE = gql`
     }
   }
 `;
+
+export const CHECKOUT = gql`
+  mutation checkout($items: [CartItem]) {
+    createCheckoutSession(items: $items) {
+      sessionId
+      sessionURL
+    }
+  }
+`;
