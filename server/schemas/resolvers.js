@@ -165,14 +165,14 @@ const resolvers = {
         sessionId: session.id,
         sessionURL: session.url,
       };
-    }
+    },
 
     // ORDERS MUTATION//
-    // addOrder: async (parent, args) => {
-    //   const order = await Order.create(args);
-    //   console.log(args);
-    //   return order;
-    // }
+    addOrder: async (parent, args) => {
+      const order = await Order.create(args);
+      console.log(args);
+      return order;
+    }
   },
 };
 

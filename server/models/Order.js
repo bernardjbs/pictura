@@ -6,17 +6,14 @@ const orderSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'user',
     },
-    pictureOrders: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'pictureOrder',
-      }
-    ],
-    //status: Open, Complete, Delivered, In Progress
+    pictureOrders: [{
+      size: String,
+      quantity: Number,
+      filename: String,
+      cloud_url: String
+    }],
+    //status: Open, Printing, Shipped,
     status: {
-      type: String,
-    },
-    note: {
       type: String,
     },
   },

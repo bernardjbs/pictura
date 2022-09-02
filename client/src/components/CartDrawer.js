@@ -8,21 +8,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import { CHECKOUT } from '../utils/mutations';
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE);
 
-export default function CartDrawer({ isOpen, setIsOpen }) {
+function CartDrawer({ isOpen, setIsOpen }) {
   const [cartItemsState, setCartItemsState] = useContext(Context)['cartItems'];
   const [ordersState, setOrdersState] = useContext(Context)['orders'];
   const [isPictureDrawerOpen, setIsPictureDrawerOpen] = useState(false);
   const [checkout, { data, error }] = useMutation(CHECKOUT);
-
-
-  useEffect(() => {
-    if (data) {
-      console.log(data.createCheckoutSession.sessionId);
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.createCheckoutSession.sessionId });
-      });
-    }
-  }, [data]);
 
   const qtyOperation = (i, operation) => {
     let items = cartItemsState.cartItems;
@@ -55,18 +45,32 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
     const cartItems = cartItemsState.cartItems
     let items = []
     cartItems.map(item=> {
+      console.log(item);
       const unitPrice = parseFloat(item.unitPrice).toFixed(2);
       items.push(
         {
           quantity: item.quantity, 
           unitPrice: unitPrice,
           filename: item.filename, 
-          cloud_url: item.cloud_url
+          cloud_url: item.cloud_url,
+          size: item.size
         }
       )
     })
-    checkout({ variables: { items } });
+    sessionStorage.setItem('items', JSON.stringify(items))
+    window.location.href = '/success';
+
+    // checkout({ variables: { items } });
   }
+
+  useEffect(() => {
+    if (data) {
+      console.log(data.createCheckoutSession.sessionId);
+      stripePromise.then((res) => {
+        res.redirectToCheckout({ sessionId: data.createCheckoutSession.sessionId });
+      });
+    }
+  }, [data]);
 
   return (
     <><main
@@ -179,7 +183,6 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
             <PictureDrawer isOpen={isPictureDrawerOpen} setIsOpen={setIsPictureDrawerOpen}></PictureDrawer>
           </div>
         </article>
-
       </section>
       <section
         className=' w-screen h-full cursor-pointer '
@@ -188,8 +191,12 @@ export default function CartDrawer({ isOpen, setIsOpen }) {
         } }
       >
       </section>
+
     </main>
+
     </>
     // TODO: On checkout map through cartItems, set the global state orders and save to db
   );
 }
+
+export default CartDrawer;

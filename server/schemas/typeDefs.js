@@ -16,10 +16,9 @@ type Auth {
 
 type Order {
   _id: ID
-  user: User!
-  pictureOrders: [PictureOrder]!
+  user: ID!
   status: String!
-  note: String
+  pictureOrders: [PictureOrder]
 }
 
 type Picture {
@@ -31,13 +30,6 @@ type Picture {
   cloud_url: String
   user: ID
   orders: [Order]
-}
-
-type PictureOrder {
-  _id: ID
-  size: String!
-  quantity: Int!
-  picture: Picture!
 }
 
 type PrintSize {
@@ -62,6 +54,20 @@ input CartItem {
   cloud_url: String
 }
 
+input PictureOrderInput {
+  size: String
+  quantity: Int
+  filename: String
+  cloud_url: String
+}
+
+type PictureOrder {
+  size: String
+  quantity: Int
+  filename: String
+  cloud_url: String
+}
+
 type Query {
   user: User
   users: [User]
@@ -76,8 +82,7 @@ type Mutation {
   addUser(firstName: String!, lastName: String!, email: String!, userType: String!, password: String!, pictures: [ID]): Auth
   updateUser(firstName: String, lastName: String, email: String, password: String): User
   login(email: String!, password: String!): Auth
-  addPictureOrder(size: String!, quantity: Int!, picture: [ID]!): PictureOrder
-  addOrder(PictureOrder: [ID]!, user: ID!, status: String, note: String): Order
+  addOrder(pictureOrders: [PictureOrderInput]!, user: ID!, status: String): Order
   addPicture(filename: String!, contentType: String!, imageBase64: String!, cloud_assetId: String, cloud_url: String): Picture
   createCheckoutSession(items: [CartItem]): CheckoutSession
 }

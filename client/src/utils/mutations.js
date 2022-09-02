@@ -22,6 +22,22 @@ export const ADD_PICTURE = gql`
   }
 `;
 
+export const ADD_ORDER = gql`
+  mutation addOrder($pictureOrders: [PictureOrderInput]!, $user: ID!, $status: String) {
+    addOrder(pictureOrders: $pictureOrders, user: $user, status: $status) {
+      _id
+      pictureOrders {
+        size
+        quantity
+        filename
+        cloud_url
+      }
+      user
+      status
+    }
+  }
+`;
+
 export const CHECKOUT = gql`
   mutation checkout($items: [CartItem]) {
     createCheckoutSession(items: $items) {
