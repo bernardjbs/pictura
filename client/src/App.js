@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Pictures from './pages/Pictures';
 import Success from './pages/Success';
 import Signup from './pages/Signup';
+import Auth from '../src/utils/auth';
 
 import {
   ApolloClient,
@@ -43,22 +44,24 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const isLogged = Auth.loggedIn();
+
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Store>
-        <Nav />
-        <section className='app-container'>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/pictures' element={<Pictures />} />
-            <Route path='/success' element={<Success />} />
-            <Route path='/signup' element={<Signup />} />
-          </Routes>
-        </section>
-      </Store>
-    </ApolloProvider>
+      <ApolloProvider client={client}>
+        <Store>
+          <Nav />
+          <section className='app-container'>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/pictures' element={isLogged? <Pictures /> : <Login />} />
+              <Route path='/success' element={<Success />} />
+              <Route path='/signup' element={<Signup />} />
+            </Routes>
+          </section>
+        </Store>
+      </ApolloProvider>
   )
 };
 

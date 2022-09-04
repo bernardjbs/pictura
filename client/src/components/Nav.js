@@ -8,6 +8,12 @@ function Nav() {
     event.preventDefault();
     Auth.logout();
   };
+
+	let user;
+
+	if(Auth.loggedIn()) {
+		user = Auth.getProfile().data.firstname 
+	}
 	return (
 		<>
 			<nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -18,9 +24,12 @@ function Nav() {
 					</Link>
 					<div className="flex items-center">
 						{Auth.loggedIn() ? (
-						<Link to="/" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={logout}>Log Out</Link>
+						<>
+						<span className='text-white'>{user} -</span>
+						<Link to="/" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={logout}>&nbsp;Sign out</Link>
+						</>
 						): 
-						<Link to="/login" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Login</Link>
+						<Link to="/login" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Sign in</Link>
 						
 						}
 					</div>

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Link } from 'react-router-dom';
 
 import { useQuery, useMutation } from '@apollo/client';
 import PictureCard from '../components/PictureCard';
@@ -58,18 +59,17 @@ function Pictures() {
 
   return (
     <>
-      <section className='overflow-hidden text-gray-700 mb-48'>
-        {user ? (
-          <>
-            <h2>
-              Pictures for {user.firstname} {user.lastname}
-            </h2>
-            <section className='overflow-hidden text-gray-700 '>
-              <div className='container px-5 py-2 mx-auto lg:pt-12 lg:px-32'>
-                <section className='uploader-section flex mb-4 p-4 align-middle bg-slate-400'>
-                  <div className='flex justify-start'>
-                    <div className='w-96'>
-                      <input className='form-control
+      <div className="flex flex-col px-6 py-8 mx-auto md:h-screen">
+        <section className='overflow-hidden text-gray-700 mb-48'>
+          {user ? (
+            <>
+              <section className='overflow-hidden text-gray-700 '>
+                <div className='container px-5 py-2 mx-auto lg:pt-12 lg:px-32'>
+                  <section className='uploader-section flex mb-4 p-4 align-middle bg-slate-400 justify-between'>
+                    <section className='pictures-uploader flex'>
+                      <div className='flex justify-start'>
+                        <div className='w-96'>
+                          <input className='form-control
                         block
                         w-full
                         px-3
@@ -84,39 +84,45 @@ function Pictures() {
                         ease-in-out 
                         m-0
                         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none' type='file' id='formFile'
-                        multiple onChange={(e) => handlePictureFileChange(e)} />
-                    </div>
-                  </div>
-                  <div className='ml-2 flex align-middle'>
-                    <button className='btn-primary py-2 px-4 rounded' onClick={() => handleUploadPictures()}>Upload</button>
-                  </div>
-
-
-                  <button type='button' className='inline-flex items-center px-5 py-2.5 btn-primary' onClick={() =>setIsOpen(true)}>
-                    My Cart
-                    <span className='inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full'>
-                      {cartItemsState.cartItems.length}
-                    </span>
-                  </button>
-
-                </section>
-
-                <div className='flex flex-wrap -m-1 md:-m-2'>
-                  {user.pictures.map(picture => (
-                    <div className='flex flex-wrap w-1/3' key={picture._id}>
-                      <div className='w-full p-1 md:p-2'>
-                        <PictureCard cloud_url={picture.cloud_url} user={user} pictureId={picture._id} />
+                            multiple onChange={(e) => handlePictureFileChange(e)} />
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                      <div className='ml-2 flex align-middle'>
+                        <button className='btn-primary py-2 px-4 rounded' onClick={() => handleUploadPictures()}>Upload</button>
+                      </div>
+                    </section>
+
+
+
+
+                    <button type='button' className='inline-flex items-center px-5 py-2.5 btn-primary' onClick={() => setIsOpen(true)}>
+                      My Cart
+                      <span className='inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full'>
+                        {cartItemsState.cartItems.length}
+                      </span>
+                    </button>
+
+                  </section>
+
+                  <div className='flex flex-wrap -m-1 md:-m-2'>
+                    {user.pictures.map(picture => (
+                      <div className='flex flex-wrap w-1/3' key={picture._id}>
+                        <div className='w-full p-1 md:p-2'>
+                          <PictureCard cloud_url={picture.cloud_url} user={user} pictureId={picture._id} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </section>
-          </>
-        ) : <h1>...Loading</h1>}
-      </section>
-      <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} headerTitle='My Cart'>
-      </CartDrawer>
+              </section>
+            </>
+          ) :
+            <p>Loading...</p>}
+        </section>
+        <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} headerTitle='My Cart'>
+        </CartDrawer>
+      </div>
+
     </>
   )
 }

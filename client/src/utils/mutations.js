@@ -39,8 +39,8 @@ export const ADD_PICTURE = gql`
 `;
 
 export const ADD_ORDER = gql`
-  mutation addOrder($pictureOrders: [PictureOrderInput]!, $user: ID!, $status: String) {
-    addOrder(pictureOrders: $pictureOrders, user: $user, status: $status) {
+  mutation addOrder($pictureOrders: [PictureOrderInput]!, $user: ID!, $status: String, $orderNumber: String) {
+    addOrder(pictureOrders: $pictureOrders, user: $user, status: $status, orderNumber: $orderNumber) {
       _id
       pictureOrders {
         size
@@ -50,6 +50,7 @@ export const ADD_ORDER = gql`
       }
       user
       status
+      orderNumber
     }
   }
 `;

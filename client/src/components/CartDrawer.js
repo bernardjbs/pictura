@@ -44,20 +44,22 @@ function CartDrawer({ isOpen, setIsOpen }) {
   const handleCheckout = () => {
     const cartItems = cartItemsState.cartItems
     let items = []
-    cartItems.map(item=> {
+    cartItems.map(item => {
       console.log(item);
       const unitPrice = parseFloat(item.unitPrice).toFixed(2);
       items.push(
         {
-          quantity: item.quantity, 
+          quantity: item.quantity,
           unitPrice: unitPrice,
-          filename: item.filename, 
+          filename: item.filename,
           cloud_url: item.cloud_url,
-          size: item.size
+          size: item.size,
         }
       )
     })
     sessionStorage.setItem('items', JSON.stringify(items))
+    console.log(items)
+
     window.location.href = '/success';
 
     // checkout({ variables: { items } });
@@ -133,7 +135,7 @@ function CartDrawer({ isOpen, setIsOpen }) {
                           className='btn-primary w-4 rounded-sm mr-1.5'
                           onClick={() => {
                             qtyOperation(i, 'decrement');
-                          } }
+                          }}
                         >
                           -
                         </button>
@@ -142,7 +144,7 @@ function CartDrawer({ isOpen, setIsOpen }) {
                           className='btn-primary w-4 rounded-sm ml-1.5'
                           onClick={() => {
                             qtyOperation(i, 'increment');
-                          } }
+                          }}
                         >
                           +
                         </button>
@@ -188,7 +190,7 @@ function CartDrawer({ isOpen, setIsOpen }) {
         className=' w-screen h-full cursor-pointer '
         onClick={() => {
           setIsOpen(false);
-        } }
+        }}
       >
       </section>
 

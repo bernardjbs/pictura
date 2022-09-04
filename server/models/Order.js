@@ -16,6 +16,9 @@ const orderSchema = new Schema(
     status: {
       type: String,
     },
+    orderNumber: {
+      type: String
+    }
   },
   {
     timestamps: true,
