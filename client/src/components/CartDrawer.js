@@ -54,6 +54,7 @@ function CartDrawer({ isOpen, setIsOpen }) {
           filename: item.filename,
           cloud_url: item.cloud_url,
           size: item.size,
+          subTotal: (unitPrice*item.quantity)
         }
       )
     })
