@@ -61,9 +61,9 @@ function CartDrawer({ isOpen, setIsOpen }) {
     sessionStorage.setItem('items', JSON.stringify(items))
     console.log(items)
 
-    window.location.href = '/success';
+    // window.location.href = '/success';
 
-    // checkout({ variables: { items } });
+    checkout({ variables: { items } });
   }
 
   useEffect(() => {
@@ -89,8 +89,8 @@ function CartDrawer({ isOpen, setIsOpen }) {
         <article className=''>
           <header className='p-4 font-bold text-lg'>My Cart</header>
           <div className='overflow-x-auto relative shadow-md sm:rounded-lg'>
-            <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-              <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+            <table className='w-full text-sm text-left text-gray-400'>
+              <thead className='text-xs uppercase bg-gray-700 text-gray-400'>
                 <tr>
                   <th scope='col' className='py-3 px-6'>
                     Picture
@@ -114,8 +114,8 @@ function CartDrawer({ isOpen, setIsOpen }) {
               </thead>
               <tbody>
                 {cartItemsState.cartItems.map((cartItem, i) => (
-                  <tr key={generateId(6)} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                    <th scope='row' className='py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                  <tr key={generateId(6)} className='border-b bg-gray-800 border-gray-700 hover:bg-gray-600'>
+                    <th scope='row' className='py-4 px-6 font-medium whitespace-nowrap text-white'>
                       <span className='cursor-pointer' onClick={() => setIsPictureDrawerOpen(true)}>
 
                         <div className='flex flex-wrap justify-center w-full h-12'>
@@ -127,7 +127,7 @@ function CartDrawer({ isOpen, setIsOpen }) {
 
                       </span>
                     </th>
-                    <th scope='row' className='py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                    <th scope='row' className='py-4 px-6 font-medium whitespace-nowrap text-white'>
                       {cartItem.filename}
                     </th>
                     <td className='py-4 px-6'>
@@ -158,11 +158,11 @@ function CartDrawer({ isOpen, setIsOpen }) {
                       ${calculatePrice(cartItem)}
                     </td>
                     <td className='py-4 px-6 text-center'>
-                      <a href='#' className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Remove</a>
+                      <a href='#' className='font-medium text-blue-500 hover:underline'>Remove</a>
                     </td>
                   </tr>
                 ))}
-                <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                <tr className='border-b bg-gray-800 border-gray-700 hover:bg-gray-600'>
                   <th scope='col' className='py-3 px-6'>
                   </th>
                   <th scope='col' className='py-3 px-6'>
@@ -194,11 +194,8 @@ function CartDrawer({ isOpen, setIsOpen }) {
         }}
       >
       </section>
-
     </main>
-
     </>
-    // TODO: On checkout map through cartItems, set the global state orders and save to db
   );
 }
 

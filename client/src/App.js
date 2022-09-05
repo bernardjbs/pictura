@@ -5,6 +5,7 @@ import Nav from '../src/components/Nav'
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Pictures from './pages/Pictures';
+import Orders from './pages/Orders';
 import Success from './pages/Success';
 import Signup from './pages/Signup';
 import Auth from '../src/utils/auth';
@@ -56,6 +57,7 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<Login />} />
               <Route path='/pictures' element={isLogged? <Pictures /> : <Login />} />
+              <Route path='/orders' element={isLogged? <Orders /> : <Login />} />
               <Route path='/success' element={<Success />} />
               <Route path='/signup' element={<Signup />} />
             </Routes>

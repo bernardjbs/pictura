@@ -3,16 +3,18 @@ import logo from '../assets/img/pi.png';
 import Auth from '../utils/auth';
 
 function Nav() {
-	
+
 	const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
+		event.preventDefault();
+		Auth.logout();
+	};
 
 	let user;
+	let userType;
 
-	if(Auth.loggedIn()) {
-		user = Auth.getProfile().data.firstname 
+	if (Auth.loggedIn()) {
+		user = Auth.getProfile().data.firstname
+		userType = Auth.getProfile().data.userType
 	}
 	return (
 		<>
@@ -24,13 +26,13 @@ function Nav() {
 					</Link>
 					<div className="flex items-center">
 						{Auth.loggedIn() ? (
-						<>
-						<span className='text-white'>{user} -</span>
-						<Link to="/" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={logout}>&nbsp;Sign out</Link>
-						</>
-						): 
-						<Link to="/login" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Sign in</Link>
-						
+							<>
+								<span className='text-white'>{user} -</span>
+								<Link to="/" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={logout}>&nbsp;Sign out</Link>
+							</>
+						) :
+							<Link to="/login" className="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Sign in</Link>
+
 						}
 					</div>
 				</div>
@@ -39,11 +41,23 @@ function Nav() {
 					<div className="flex items-center">
 						<ul className="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
 							<li>
-								<Link to="/" className="text-gray-900 dark:text-white hover:underline" aria-current="page">Dashboard</Link>
+								<Link to="/" className="text-gray-900 dark:text-white hover:underline" aria-current="page">Home</Link>
 							</li>
-							<li>
-								<Link to="/pictures" className="text-gray-900 dark:text-white hover:underline">Pictures</Link>
-							</li>
+`							{userType === 'Customer' && Auth.loggedIn() ? (
+								<li>
+									<Link to="/pictures" className="text-gray-900 dark:text-white hover:underline">Pictures</Link>
+								</li>
+							)
+								: userType === 'Admin' && Auth.loggedIn() ?
+									(
+										<li>
+											<Link to="/orders" className="text-gray-900 dark:text-white hover:underline">Orders</Link>
+										</li>
+									) :
+									<></>
+							}`
+
+
 							<li>
 								<Link to="/" className="text-gray-900 dark:text-white hover:underline">Contact Us</Link>
 							</li>

@@ -1,6 +1,4 @@
 import React, { useState, useContext } from 'react'
-import { Link } from 'react-router-dom';
-
 import { useQuery, useMutation } from '@apollo/client';
 import PictureCard from '../components/PictureCard';
 import CartDrawer from '../components/CartDrawer';

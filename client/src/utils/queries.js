@@ -37,3 +37,25 @@ export const QUERY_PICTURE = gql`
     }
   }
 `;
+
+export const QUERY_ORDERS = gql`
+{
+  orders {
+    _id
+    user {
+      firstname
+      lastname
+    }
+    status
+    pictureOrders {
+      size
+      quantity
+      filename
+      cloud_url
+    }
+    orderNumber
+    createdAt
+  }
+}
+
+`;

@@ -1,6 +1,9 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+
+scalar Date
+
 type User {
   _id: ID!
   firstname: String!
@@ -19,11 +22,12 @@ type Auth {
 
 type Order {
   _id: ID
-  user: ID!
+  user: User
   status: String!
   pictureOrders: [PictureOrder]
   orderNumber: String!
-}
+  createdAt: Date
+  }
 
 type Picture {
   _id: ID
@@ -57,7 +61,7 @@ input CartItem {
   filename: String
   cloud_url: String
   size: String
-  orderNumber: String
+  subTotal: Float
 }
 
 input PictureOrderInput {

@@ -1,16 +1,13 @@
 const { AuthenticationError } = require('apollo-server-express');
+const {GraphQLScalarType, Kind } = require('graphql');
 const { User, Picture, Order, PrintSize } = require('../models');
 const { signToken } = require('../utils/auth');
 const cloudinary = require('../config/cloudinary');
 const path = require('path');
-const { Console } = require('console');
-
 
 require("dotenv").config({
   path: path.resolve(__dirname, '../../.env')
 });
-console.log(__dirname)
-console.log(process.env.STRIPE_KEY)
 
 const stripe = require('stripe')(process.env.STRIPE_KEY)
 
@@ -57,6 +54,10 @@ const resolvers = {
       } catch (error) {
         throw new Error(error);
       };
+    },
+
+    orders: async () => {
+      return await Order.find().populate('user');
     },
   },
 
@@ -177,6 +178,25 @@ const resolvers = {
       return order;
     }
   },
+
+  // Defining Scalar type for Date 
+  Date: new GraphQLScalarType({
+    name: 'Date', 
+    description: 'Custom Scalar Type for Date', 
+    parseValue(value) {
+      return new Date(value); // Value from the client
+    }, 
+    serialize(value) {
+      const date = new Date(value);
+      return date.toLocaleDateString() + ' - ' + date.toLocaleTimeString() // Value sent to the client
+    }, 
+    parseLiteral(ast) {
+      if(ast.kind === Kind.INT) {
+        return new Date(ast.value); // ast value is always in string format
+      }
+      return null;
+    }
+  })
 };
 
 module.exports = resolvers;
