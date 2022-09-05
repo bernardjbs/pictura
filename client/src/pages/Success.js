@@ -80,7 +80,7 @@ function Success() {
                     <tbody>
                       {
                         successOrder.pictureOrders ?
-                          successOrder.pictureOrders.map(pictureOrder => (
+                          successOrder.pictureOrders.map((pictureOrder, i) => (
                             <tr key={generateId(6)} className='text-gray-700 bg-gray-300'>
                               <th scope='row' className='py-4 px-6 font-medium whitespace-nowrap'>
                                 <div className='flex flex-wrap justify-center w-full h-12'>
@@ -107,7 +107,7 @@ function Success() {
                           )) :
                           console.log('array not filled yet')
                       }
-                      <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                      <tr className='bg-white border-b hover:bg-gray-50 '>
                         <th scope='col' className='py-3 px-6'>
                         </th>
                         <th scope='col' className='py-3 px-6'>
