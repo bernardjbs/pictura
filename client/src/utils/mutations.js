@@ -48,7 +48,9 @@ export const ADD_ORDER = gql`
         filename
         cloud_url
       }
-      user
+      user {
+        _id
+      }
       status
       orderNumber
     }

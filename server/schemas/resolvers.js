@@ -59,6 +59,14 @@ const resolvers = {
     orders: async () => {
       return await Order.find().populate('user');
     },
+
+    ordersByStatus: async (parent, args) => {
+      console.log(args)
+      const params = {}
+      params.status = args.status;
+      console.log(await Order.find(params))
+      return await Order.find(params).populate('user')
+    }
   },
 
   Mutation: {

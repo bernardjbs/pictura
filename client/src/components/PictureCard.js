@@ -5,7 +5,7 @@ import Auth from '../utils/auth';
 import { Context } from '../utils/GlobalState';
 import { QUERY_PICTURE } from '../utils/queries';
 
-import DropDown from './DropDown';
+import DropDownSizes from './DropDownSizes';
 
 export default function PictureCard({ cloud_url, user, pictureId }) {
   const [userState, setUserState] = useContext(Context)['user'];
@@ -55,7 +55,7 @@ export default function PictureCard({ cloud_url, user, pictureId }) {
             <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>Filename</h5>
             <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>Picture description</p>
             <section className='flex items-center'>
-              <div> <DropDown /></div>
+              <div> <DropDownSizes /></div>
               <div>
                 <button onClick={() => handleAddToCart(pictureId)} className='inline-flex items-center py-2 px-3 mx-4 btn-primary'>
                   Add to Cart

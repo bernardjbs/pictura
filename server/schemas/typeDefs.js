@@ -86,6 +86,7 @@ type Query {
   picture(id: ID!): Picture
   pictures: [Picture]
   printSizes: [PrintSize]
+  ordersByStatus(status: String): [Order] 
 }
 
 type Mutation {

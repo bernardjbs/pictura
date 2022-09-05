@@ -57,5 +57,25 @@ export const QUERY_ORDERS = gql`
     createdAt
   }
 }
+`;
 
+export const QUERY_ORDERS_BY_STATUS = gql `
+query ordersByStatus($status: String) {
+  ordersByStatus(status: $status) {
+    _id
+    user {
+      firstname
+      lastname
+    }
+    status
+    pictureOrders {
+      size
+      quantity
+      filename
+      cloud_url
+    }
+    orderNumber
+    createdAt
+  }
+}
 `;

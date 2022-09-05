@@ -58,10 +58,10 @@ function Pictures() {
   return (
     <>
       <div className="flex flex-col px-6 py-8 mx-auto md:h-screen">
-        <section className='overflow-hidden text-gray-700 mb-48'>
+        <section className='text-gray-700'>
           {user ? (
             <>
-              <section className='overflow-hidden text-gray-700 '>
+              <section className='text-gray-700 '>
                 <div className='container px-5 py-2 mx-auto lg:pt-12 lg:px-32'>
                   <section className='uploader-section flex mb-4 p-4 align-middle bg-slate-400 justify-between'>
                     <section className='pictures-uploader flex'>
