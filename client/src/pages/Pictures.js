@@ -90,8 +90,10 @@ function Pictures() {
                         <div className='w-full p-1 md:p-2'>
                           <PictureCard cloud_url={picture.cloud_url} user={user} pictureId={picture._id} />
                         </div>
+
                       </div>
                     ))}
+
                   </div>
                 </div>
               </section>

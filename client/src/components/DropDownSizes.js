@@ -39,12 +39,12 @@ export default function DropDown() {
           {
             data ?
               (
-                data.printSizes.map(printSize => (
+                printSizes.map(printSize => (
                   <option key={printSize._id} value={printSize.size} data-price={printSize.price}>{printSize.size}</option>
                 ))
               )
               :
-              (console.log('data not available'))
+              (console.log('data is not available, or is loading... '))
           }
         </select>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useLazyQuery } from '@apollo/client';
 
 import Auth from '../utils/auth';
@@ -15,11 +15,33 @@ export default function PictureCard({ cloud_url, user, pictureId }) {
   // const { data } = useQuery(QUERY_PICTURE, {variables: {PictureId: }});
   const [getPicture, { data }] = useLazyQuery(QUERY_PICTURE);
 
+  const [errors, setErrors] = useState({});
+  const [allowClick, setAllowClick] = useState(false);
+
   useEffect(() => {
     setUserState(user)
   })
 
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && allowClick) {
+    }
+  }, [errors])
+
+  const validation = () => {
+    const validateErrors = {}
+    if (selectedSizeState.printSize === 'Choose a size' || selectedSizeState.printSize === undefined) {
+      validateErrors.chooseSize = 'Please choose a size'
+    }
+    return validateErrors;
+  }
+
   const handleAddToCart = (pictureId) => {
+
+    setErrors(validation());
+    if (selectedSizeState.printSize === '')
+      setErrors({ chooseSize: 'Please choose a size' })
+
+    setAllowClick(true);
     getPicture({ variables: { id: pictureId } }).then(picture => {
       const currentTotal = cartItemsState.totalAmount;
       const selectedPicture = picture.data.picture;
@@ -27,22 +49,37 @@ export default function PictureCard({ cloud_url, user, pictureId }) {
         customerId: Auth.getProfile().data._id,
         pictureId: pictureId,
         filename: selectedPicture.filename,
-        size: selectedSizeState.printSize, 
+        size: selectedSizeState.printSize,
         quantity: 1,
         cloud_url: selectedPicture.cloud_url,
         unitPrice: selectedSizeState.unitPrice
       }
       const newItemArray = [...cartItemsState.cartItems, newItem]
+      let addToCart = false;
+      if (newItem.unitPrice > 0) {
+        addToCart = true
+      }
       const newItems = {
         cartItems: newItemArray,
-        totalAmount: currentTotal + (newItem.quantity * newItem.unitPrice)
+        totalAmount: currentTotal + (newItem.quantity * newItem.unitPrice),
+        addToCart: addToCart
       }
-      setCartItemsState(newItems);
+
+      return newItems
+    }).then(newItems => {
+      console.log(newItems)
+      if (newItems.addToCart) {
+        setCartItemsState(newItems);
+      } else {
+        console.log('do not add to cart')
+      }
+      setSelectedSizeState({})
     });
   };
 
   return (
     <>
+      {/* <pre>{JSON.stringify(selectedSizeState, undefined, 2)}</pre> */}
       <div>
         <div className='bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700'>
           <div className='flex flex-wrap'>
@@ -62,6 +99,7 @@ export default function PictureCard({ cloud_url, user, pictureId }) {
                 </button>
               </div>
             </section>
+            <p className='text-red-500 font-bold mt-4'>{errors.chooseSize}</p>
           </div>
         </div>
       </div>

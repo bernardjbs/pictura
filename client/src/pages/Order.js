@@ -24,7 +24,7 @@ function Order() {
         status: 'In Progress'
       }
     });
-    window.location.assign('/orders')
+
   }
 
   return (

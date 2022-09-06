@@ -45,7 +45,11 @@ const downloadOrders = (orderDetails) => {
     zip.generateAsync({ type: "blob" }).then(function (content) {
       FileSaver.saveAs(content, orderDetails.orderNumber);
     });
-    }, 1000);
+    
+    }, 100);
+    setTimeout(() => {
+      window.location.assign('/orders')
+      }, 1000);
 }
 
 export default downloadOrders;
