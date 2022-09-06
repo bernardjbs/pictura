@@ -89,19 +89,13 @@ function Pictures() {
                         <button className='btn-primary py-2 px-4 rounded' onClick={() => handleUploadPictures()}>Upload</button>
                       </div>
                     </section>
-
-
-
-
                     <button type='button' className='inline-flex items-center px-5 py-2.5 btn-primary' onClick={() => setIsOpen(true)}>
                       My Cart
                       <span className='inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full'>
                         {cartItemsState.cartItems.length}
                       </span>
                     </button>
-
                   </section>
-
                   <div className='flex flex-wrap -m-1 md:-m-2'>
                     {user.pictures.map(picture => (
                       <div className='flex flex-wrap w-1/3' key={picture._id}>

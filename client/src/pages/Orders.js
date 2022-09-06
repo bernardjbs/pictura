@@ -1,23 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { Link } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_ORDERS_BY_STATUS } from '../utils/queries';
 
+import { Context } from '../utils/GlobalState';
 
 function Orders() {
   const [getOrders, { data }] = useLazyQuery(QUERY_ORDERS_BY_STATUS);
 
   const [selectedStatus, setSelectedStatus] = useState('Open')
-  const [selectedData, setSelectedData] = useState('')
+  const [selectedOrderState, setSelectedOrderState] = useContext(Context)['cartItems'];
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = () => {
       getOrders(
         {variables: {status: selectedStatus}}
       )
-  }
+    if (data) {
+      setSelectedOrderState(data.ordersByStatus[0])
+    }
+    }
 
   useEffect(() => {
     handleSelectChange()
+
   }, [selectedStatus])
+
 
   return (
     <div className='flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-2'>
@@ -88,13 +95,15 @@ function Orders() {
                             {order.createdAt}
                           </td>
                           <td className='py-4 px-6 text-center'>
-                            <a href='#' className='font-medium text-blue-500 hover:underline'>View Order</a>
+                            <Link to='/order' className='font-medium text-blue-500 hover:underline'>View Order</Link>
                           </td>
                         </tr>
                       ))
                     ) :
                     console.log('data in process...')
                 }
+
+                {data ? setSelectedOrderState(data.ordersByStatus[0]) : console.log('')}
 
               </tbody>
             </table>

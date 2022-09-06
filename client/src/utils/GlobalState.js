@@ -23,6 +23,11 @@ const initialOrders = [
     quantity: 1,
   }
 ]
+
+const initialOrder = {
+
+}
+
 export const Context = createContext();
 
 const Store = ({ children }) => {
@@ -30,12 +35,14 @@ const Store = ({ children }) => {
   const [cartItemsState, setCartItemsState] = useState(initialCartItems);
   const [selectedSizeState, setSelectedSizeState] = useState(initialSelectedSize);
   const [ordersState, setOrdersState] = useState(initialOrders);
+  const [selectedOrderState, setSelectedOrderState] = useState(initialOrder);
   return (
     <Context.Provider value={{
       'user': [userState, setUserState],
       'cartItems': [cartItemsState, setCartItemsState],
       'selectedSize': [selectedSizeState, setSelectedSizeState],
       'orders': [ordersState, setOrdersState],
+      'selectedOrder': [selectedOrderState, setSelectedOrderState],
     }}>
       {children}
     </Context.Provider>
