@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const {GraphQLScalarType, Kind } = require('graphql');
+const { GraphQLScalarType, Kind } = require('graphql');
 const { User, Picture, Order, PrintSize } = require('../models');
 const { signToken } = require('../utils/auth');
 const cloudinary = require('../config/cloudinary');
@@ -139,9 +139,9 @@ const resolvers = {
       }
     },
 
-    createCheckoutSession: async (parent , { items }) => {
+    createCheckoutSession: async (parent, { items }) => {
       let origin
-      if(process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === 'production') {
         origin = process.env.PROD_URI
       } else {
         origin = process.env.DEV_URI
@@ -184,22 +184,30 @@ const resolvers = {
       const order = await Order.create(args);
       console.log(args);
       return order;
-    }
+    },
+
+    updateOrderStatus: async (parent, args) => {
+      
+      console.log(args)
+      console.log('i am here')
+      return await Order.findByIdAndUpdate(args._id, { status: args.status }, { new: true });
+    },
+
   },
 
   // Defining Scalar type for Date 
   Date: new GraphQLScalarType({
-    name: 'Date', 
-    description: 'Custom Scalar Type for Date', 
+    name: 'Date',
+    description: 'Custom Scalar Type for Date',
     parseValue(value) {
       return new Date(value); // Value from the client
-    }, 
+    },
     serialize(value) {
       const date = new Date(value);
       return date.toLocaleDateString() + ' - ' + date.toLocaleTimeString() // Value sent to the client
-    }, 
+    },
     parseLiteral(ast) {
-      if(ast.kind === Kind.INT) {
+      if (ast.kind === Kind.INT) {
         return new Date(ast.value); // ast value is always in string format
       }
       return null;

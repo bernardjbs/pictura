@@ -107,6 +107,11 @@ type Mutation {
     email: String!
     password: String!
     userType: String!): Auth
+
+    updateOrderStatus(
+      _id: ID
+      status: String
+    ) : Order
 }
 `
 

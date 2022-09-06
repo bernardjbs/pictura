@@ -1,17 +1,30 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 
 import downloadOrders from '../utils/downloadOrders';
 
 import { Context } from '../utils/GlobalState';
 
+import { UPDATE_ORDER_STATUS } from '../utils/mutations'
+
 function Order() {
   const [selectedOrderState, setSelectedOrderState] = useContext(Context)['cartItems'];
   const [dataURLs, setDataURLs] = useState([]);
 
+  const [updateOrderStatus, { error }] = useMutation(UPDATE_ORDER_STATUS)
+
   const handleOnClick = () => {
     downloadOrders(selectedOrderState)
-    console.log('downloaded and update status')
+
+    updateOrderStatus({
+      variables:
+      {
+        _id: selectedOrderState._id,
+        status: 'In Progress'
+      }
+    });
+    window.location.assign('/orders')
   }
 
   return (
@@ -64,7 +77,7 @@ function Order() {
                       <td className='py-4 px-6 text-center'>
                         {selectedOrderState.status === 'Open'
                           ?
-                          (<Link to='/orders' onClick={() => handleOnClick()}>Download</Link>)
+                          (<button onClick={() => handleOnClick()}>Download</button>)
                           : <></>}
                       </td>
                     </tr>

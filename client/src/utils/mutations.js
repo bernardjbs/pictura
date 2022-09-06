@@ -57,6 +57,15 @@ export const ADD_ORDER = gql`
   }
 `;
 
+export const UPDATE_ORDER_STATUS = gql`
+  mutation updateOrderStatus($status: String, $_id: ID) {
+    updateOrderStatus(status: $status, _id: $_id) {
+      _id
+      status
+    }
+  }
+`;
+
 export const CHECKOUT = gql`
   mutation checkout($items: [CartItem]) {
     createCheckoutSession(items: $items) {
