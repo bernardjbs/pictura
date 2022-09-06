@@ -3,6 +3,8 @@ import { useQuery, useMutation } from '@apollo/client';
 import PictureCard from '../components/PictureCard';
 import CartDrawer from '../components/CartDrawer';
 
+import convertBase64 from '../utils/convertBase64';
+
 import { ADD_PICTURE } from '../utils/mutations';
 import { QUERY_USER } from '../utils/queries';
 import { Context } from '../utils/GlobalState';
@@ -19,19 +21,19 @@ function Pictures() {
     user = data.user;
   }
 
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+  // const convertBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
+  // };
 
   const handlePictureFileChange = (event) => {
     setPictureFiles(event.target.files);
