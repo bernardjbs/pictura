@@ -73,8 +73,8 @@ function Orders() {
                 {
                   data ?
                     (
-                      data.ordersByStatus.map(order => (
-                        <tr key={''} className='border-b bg-gray-800 border-gray-700'>
+                      data.ordersByStatus.map((order, i) => (
+                        <tr key={order._id} className='border-b bg-gray-800 border-gray-700'>
                           <th scope='row' className='py-4 px-6 font-medium whitespace-nowrap text-white'>
                             <div className='flex flex-wrap w-full'>
                               {order.orderNumber}
@@ -95,15 +95,16 @@ function Orders() {
                             {order.createdAt}
                           </td>
                           <td className='py-4 px-6 text-center'>
-                            <Link to='/order' className='font-medium text-blue-500 hover:underline'>View Order</Link>
+                            <Link to='/order' onClick={() => setSelectedOrderState(data.ordersByStatus[i])} className='font-medium text-blue-500 hover:underline'>View Order</Link>
                           </td>
                         </tr>
+                        
                       ))
                     ) :
                     console.log('data in process...')
                 }
 
-                {data ? setSelectedOrderState(data.ordersByStatus[0]) : console.log('')}
+                {/* {data ? setSelectedOrderState(data.ordersByStatus[0]) : console.log('')} */}
 
               </tbody>
             </table>
